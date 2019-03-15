@@ -18,7 +18,7 @@ public class MazeMaker {
     public MazeMaker(){
         MAZE=new int[41][41];
         populateMaze();
-        makeNewMaze();
+        prims();
     }
     public MazeMaker(int x, int y){
         if(x%2==0||y%2==0){
@@ -26,9 +26,22 @@ public class MazeMaker {
         }
         MAZE=new int[x][y];
         populateMaze();
-        makeNewMaze();
+        prims();
     }
-    private void makeNewMaze() {
+    public void makeNewMaze(int x, int y){
+        if(x%2==0||y%2==0){
+            throw new IllegalArgumentException("maze must have an odd number of rows and columns");
+        }
+        MAZE=new int[x][y];
+        populateMaze();
+        prims();
+    }
+    public void makeNewMaze(){
+        MAZE=new int[41][41];
+        populateMaze();
+        prims();
+    }
+    private void prims() {
         start[0]=rand.nextInt(MAZE.length);
         start[1]=rand.nextInt(MAZE[0].length);
         end[0]=rand.nextInt(MAZE.length);
@@ -142,22 +155,13 @@ public class MazeMaker {
             }
         }
     }
-    //    public int getPoint(int x, int y){
-//        return MAZE[x][y];
-//    }
+    public int getPoint(int x, int y){
+        return MAZE[x][y];
+    }
     private void addborder(int x, int y){
         border.add(x);
         border.add(y);
         numfrontiers++;
     }
-    public static void main(String[] args) {
-        MazeMaker m= new MazeMaker(5,5);
-        for (int i = 0; i <m.MAZE.length ; i++) {
-            for (int j=0;j<m.MAZE[i].length;j++){
 
-                System.out.print("["+m.MAZE[i][j]+"], ");
-            }
-            System.out.println();
-        }
-    }
 }
