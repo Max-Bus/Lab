@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MazeMaker {
-    public int[][] MAZE;
+    private int[][] MAZE;
     public final int WALL=-1;
     public final int ROOM=0;
     private int unconnectedroom=2;
@@ -46,21 +46,25 @@ public class MazeMaker {
         start[1]=rand.nextInt(MAZE[0].length);
         end[0]=rand.nextInt(MAZE.length);
         end[1]=rand.nextInt(MAZE[0].length);
+
         if((start[0]!=0 && start[0]!=MAZE.length) || (start[1]!=0 && start[1]!=MAZE.length)){
             int temp2 =rand.nextInt(2);
             start[temp2]=rand.nextInt(2)*(MAZE.length-1);
             start[1-temp2]+=(start[1-temp2]%2==0)?0:1;
         }
+
         if((end[0]!=0 && end[0]!=MAZE.length) || (end[1]!=0 && end[1]!=MAZE.length)){
             int temp2=rand.nextInt(2);
             end[temp2]=rand.nextInt(2)*(MAZE.length-1);
             end[1-temp2]+=(end[1-temp2]%2==0)?0:1;
         }
+
         MAZE[start[0]][start[1]]=ROOM;
         int roomx=start[0];
         int roomy=start[1];
         int temp;
         findFrontiers(roomx,roomy);
+
         do {
             // find num and pos of frontiers
             roomy=rand.nextInt(border.size());
@@ -83,7 +87,6 @@ public class MazeMaker {
                     roomy--;
                 }
             }
-
             else{
                 if(MAZE[roomx+1][roomy]==2){
                     MAZE[roomx+1][roomy]=ROOM;
@@ -96,9 +99,10 @@ public class MazeMaker {
             }
             findFrontiers(roomx,roomy);
         }while(border.size()>0);
-        System.out.println("start: ("+start[0]+","+start[1]+") end: ("+end[0]+","+end[1]+")");
 
+        System.out.println("start: ("+start[0]+","+start[1]+") end: ("+end[0]+","+end[1]+")");
     }
+
     private void findFrontiers(int x, int y){
         if(x%2!=0||y%2!=0){
             System.out.println(x+","+y);
@@ -134,6 +138,7 @@ public class MazeMaker {
             }
         }
     }
+
     private void removeborder(int x,int y){
         for (int i=0;i<border.size();i+=2){
             if(border.get(i)==x&&border.get(i+1)==y){
@@ -142,6 +147,7 @@ public class MazeMaker {
             }
         }
     }
+
     private void populateMaze() {
         for (int i = 0; i < MAZE.length; i++) {
             for (int j = 0; j < MAZE[i].length; j++) {
@@ -155,8 +161,16 @@ public class MazeMaker {
             }
         }
     }
+
     public int getPoint(int x, int y){
         return MAZE[x][y];
+    }
+
+    public int getwidth(){
+        return MAZE.length;
+    }
+    public int getheight(){
+        return MAZE[0].length;
     }
     private void addborder(int x, int y){
         border.add(x);
